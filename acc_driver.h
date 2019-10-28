@@ -1,16 +1,16 @@
 #include <sys/ioctl.h>
 //#include <sys/types.h>
-//#include <sys/stat.h>
+#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-// ioctl cmd
-#define READ_LITE0	0x01
+// ioctl cmd's NR
+#define  READ_LITE0	0x01
 #define WRITE_LITE0 0x02
-#define READ_LITE1  0x03
+#define  READ_LITE1 0x03
 #define WRITE_LITE1 0x04
 
 // ctrl module id

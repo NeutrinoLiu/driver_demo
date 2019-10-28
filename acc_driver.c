@@ -24,9 +24,14 @@ int acc_reg_swrite(int reg_index, uint64_t reg_value, int which)
 
 	access_unit->index = reg_index;
 	access_unit->value = reg_value;
-	cmd = (which == LITE0) ? WRITE_LITE0 : WRITE_LITE1;
-	arg = (unsigned long) access_unit;
 
+	// obey the format of driver cmd
+	cmd = _IOW(	0xBB,
+					(which == LITE0) ? WRITE_LITE0 : WRITE_LITE1,
+					struct io_access
+				);
+	arg = (unsigned long) access_unit;
+	
 	if (ioctl(fd, cmd, arg)) {
 		printf("write fail!\n");
 		free(access_unit);
@@ -45,7 +50,12 @@ uint64_t acc_reg_sread(int reg_index, int which)
 	uint64_t res;
 
 	access_unit->index = reg_index;
-	cmd = (which == LITE0) ? READ_LITE0 : READ_LITE1;
+
+	// obey the format of driver cmd
+	cmd = _IOWR(	0xBB, 
+					(which == LITE0) ? READ_LITE0 : READ_LITE1,
+					struct io_access
+				);
 	arg = (unsigned long) access_unit;
 
 	if (ioctl(fd, cmd, arg)) {

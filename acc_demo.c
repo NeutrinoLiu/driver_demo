@@ -30,20 +30,22 @@ int main(int argc, char **argv)
     acc_reg_swrite(WD3, 32384, LITE0);
     acc_reg_swrite(START, 1, LITE0);
 
-    timeout = 1000;
+    timeout = 5;
     done_flag = 0;
     while (timeout-- && !done_flag)
         done_flag = acc_reg_sread(DONE, LITE0);
+    if (!timeout) printf("timeout!\n");
 
     // ask for a read
     acc_reg_swrite(MODE, 0, LITE0);
     acc_reg_swrite(ADDR, 0x9000000, LITE0);
     acc_reg_swrite(START, 1, LITE0);
 
-    timeout = 1000;
+    timeout = 5;
     done_flag = 0;
     while (timeout-- && !done_flag)
         done_flag = acc_reg_sread(DONE, LITE0);
+    if (!timeout) printf("timeout!\n");
 
     printf("we got %d %d %d %d \n", acc_reg_sread(RD0, LITE0), acc_reg_sread(RD1, LITE0), acc_reg_sread(RD2, LITE0), acc_reg_sread(RD3, LITE0));
 

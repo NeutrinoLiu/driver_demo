@@ -25,7 +25,7 @@
 #define   ACC_MAJOR 361
 int acc_major = ACC_MAJOR;
 
-// cmds
+// cmds NR
 #define  READ_LITE0	0x01
 #define WRITE_LITE0 0x02
 #define  READ_LITE1 0x03
@@ -69,18 +69,16 @@ static ssize_t acc_write(struct file *file_p, const char __user *buf, size_t siz
     return 0;
 }                         
 
-long int acc_ioctl(struct file *file_p, unsigned int cmd, unsigned long arg) // arg is a pointer in usigned long
+static long acc_ioctl(struct file *file_p, unsigned int cmd, unsigned long arg) // arg is a pointer in usigned long
 {
 	struct acc_device *dev = file_p->private_data;
-   	struct io_access *access_unit;
-
-   	access_unit = kzalloc(sizeof(struct io_access), GFP_KERNEL); // add check point here
+   	struct io_access *access_unit = kzalloc(sizeof(struct io_access), GFP_KERNEL); // add check point here
    	if (copy_from_user(access_unit, (char __user *) arg, sizeof(struct io_access))) {
    		printk(KERN_NOTICE "[Acc Driver] user mem read fail\n");
    		return -1;
    	}
    	
-	switch (cmd) {
+	switch (_IOC_NR(cmd)) { // we must obay the rule to create a cmd
 
 		case READ_LITE0:
 			access_unit->value = *(dev->vaddr_base_1 + access_unit->index);
