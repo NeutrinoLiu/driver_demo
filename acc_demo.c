@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     acc_file_open();
 
     // ask for a write into 9000000
-    acc_reg_swrite(MODE, 2, LITE0);
+    acc_reg_swrite(MODE, 1, LITE0);
     acc_reg_swrite(ADDR, 0x9000000, LITE0);
     acc_reg_swrite(WD0, 31415, LITE0);
     acc_reg_swrite(WD1, 92653, LITE0);
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         done_flag = acc_reg_sread(DONE, LITE0);
 
     // ask for a read
-    acc_reg_swrite(MODE, 3, LITE0);
+    acc_reg_swrite(MODE, 0, LITE0);
     acc_reg_swrite(ADDR, 0x9000000, LITE0);
     acc_reg_swrite(START, 1, LITE0);
 
